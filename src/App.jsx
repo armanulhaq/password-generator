@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./App.css";
 
 function App() {
@@ -6,6 +6,14 @@ function App() {
     const [number, setNumber] = useState(false);
     const [char, setChar] = useState(false);
     const [password, setPassword] = useState("");
+
+    const passwordRef = useRef(null);
+
+    const copyPassword = () => {
+        passwordRef.current?.select();
+        //passwordRef.current?.setSelectionRange(0, 4);
+        window.navigator.clipboard.writeText(password);
+    };
 
     useEffect(() => {
         function passwordGenerator() {
@@ -40,8 +48,12 @@ function App() {
                         value={password}
                         placeholder="Enter password"
                         readOnly
+                        ref={passwordRef}
                     />
-                    <button className="ml-3 rounded-md bg-blue-500 text-white px-3 py-2 shrink-0">
+                    <button
+                        onClick={copyPassword}
+                        className="ml-3 rounded-md bg-blue-500 text-white px-3 py-2 shrink-0"
+                    >
                         copy
                     </button>
                 </div>
